@@ -185,7 +185,16 @@ if ($pageStat == "Change") {
         <?php } 
         $num++; // Increment numbering
     } ?>
-
+        <?php if ($getContestant_id == "allTally") { ?>
+        <li class="active"><a href="judge_panel.php?judge_ctr=<?php echo $judge_ctr; ?>&subevent_id=<?php echo $subevent_id; ?>&contestant_id=allTally">
+            <strong>View Tally</strong>
+        </a></li>
+        <li><a href="selection.php"><strong><font color="red">Exit</font></strong></a></li>
+    <?php } else { ?>
+        <li><a href="judge_panel.php?judge_ctr=<?php echo $judge_ctr; ?>&subevent_id=<?php echo $subevent_id; ?>&contestant_id=allTally">
+            View Tally
+        </a></li>
+    <?php } ?>
 <?php } ?>
 </ul>
 
@@ -194,9 +203,10 @@ if ($pageStat == "Change") {
 
 
 <?php
-if($getContestant_id=="allTallys")
+if($getContestant_id=="allTally")
 { ?>
-
+               
+ 
                         <table align="center" class="table table-bordered">
                          
                         <tr>
@@ -211,7 +221,7 @@ if($getContestant_id=="allTallys")
                         </tr>
                         
                         <tr>
-                        <td><center>TEAM NAME</center></td>
+                        <td><center>Contestant Name</center></td>
                         <td><center>Scoresheet</center></td>
                         <td style="background:#e4f6e2"><center>Final Score</center></td>
                         <td bgcolor="green"><center><font color="white">Rank</font></center></td>
@@ -383,7 +393,6 @@ if($getContestant_id=="allTallys")
                         <font size="2"><strong>Comment:</strong> <?php echo $comments; ?></font>
                         
                         </td>
-                        
 
 <!-- auto ranking --><!-- auto ranking --><!-- auto ranking --><!-- auto ranking --><!-- auto ranking --><!-- auto ranking --><!-- auto ranking --><!-- auto ranking --><!-- auto ranking --><!-- auto ranking -->
                             
