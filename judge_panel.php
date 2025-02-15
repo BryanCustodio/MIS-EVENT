@@ -1236,40 +1236,40 @@ if( $jstat_rowx == 1 )
 
 <!-- Start Edit Criteria -->
 <form method="POST" action="edit_submit_judging.php">
-
-    <input type="hidden" value="<?php echo $cont_row['fullname']; ?>" name="contestant_name" />
-    <input type="hidden" value="<?php echo $getContestant_id; ?>" name="contestant_id" />
-    <input type="hidden" value="<?php echo $j_id; ?>" name="judge_id" />
-    <input type="hidden" value="<?php echo $judge_ctr; ?>" name="judge_ctr" />
-    <input type="hidden" value="<?php echo $se_MEidxx; ?>" name="mainevent_id" />
-    <input type="hidden" value="<?php echo $subevent_id; ?>" name="subevent_id" />
+    <input type="hidden" name="contestant_name" value="<?= htmlspecialchars($cont_row['fullname']) ?>">
+    <input type="hidden" name="contestant_id" value="<?= htmlspecialchars($getContestant_id) ?>">
+    <input type="hidden" name="judge_id" value="<?= htmlspecialchars($j_id) ?>">
+    <input type="hidden" name="judge_ctr" value="<?= htmlspecialchars($judge_ctr) ?>">
+    <input type="hidden" name="mainevent_id" value="<?= htmlspecialchars($se_MEidxx) ?>">
+    <input type="hidden" name="subevent_id" value="<?= htmlspecialchars($subevent_id) ?>">
 
     <table align="center" class="table table-bordered">
         <tr>
             <?php
-            $totzxzxzxzxz = 0;
-            $criteria_query = $conn->query("SELECT * FROM criteria WHERE subevent_id='$subevent_id' ORDER BY criteria_ctr ASC") or die(mysql_error());
+            $totPercentage = 0;
+            $criteria = [];
 
-            while ($crit_row = $criteria_query->fetch()) {
-                $totzxzxzxzxz += $crit_row['percentage'];
-                echo "<td width='10'><center><font size='2'>{$crit_row['criteria']} - <b>{$crit_row['percentage']} Points</b></font></center></td>";
+            $criteria_query = $conn->prepare("SELECT * FROM criteria WHERE subevent_id=? ORDER BY criteria_ctr ASC");
+            $criteria_query->execute([$subevent_id]);
+
+            while ($crit_row = $criteria_query->fetch(PDO::FETCH_ASSOC)) {
+                $totPercentage += $crit_row['percentage'];
+                $criteria[] = $crit_row;  
+                echo "<td width='10%'><center><font size='2'>{$crit_row['criteria']} - <b>{$crit_row['percentage']} Points</b></font></center></td>";
             }
             ?>
         </tr>
 
         <tr>
-            <?php
-            $criteria_query = $conn->query("SELECT * FROM criteria WHERE subevent_id='$subevent_id' ORDER BY criteria_ctr ASC") or die(mysql_error());
-
-            while ($crit_row = $criteria_query->fetch()) { ?>
-                <td width="10">
+            <?php foreach ($criteria as $crit) { ?>
+                <td width="10%">
                     <center>
                         <input type="number" class="form-control" style="width: 100%;" 
-                               name="cp<?php echo $crit_row['criteria_ctr']; ?>" 
-                               min="0" max="<?php echo $crit_row['percentage']; ?>" 
+                               name="cp<?= $crit['criteria_ctr']; ?>" 
+                               min="0" max="<?= $crit['percentage']; ?>" 
                                step="0.1" 
-                               value="<?php echo isset(${"s" . $crit_row['criteria_ctr']}) ? ${"s" . $crit_row['criteria_ctr']} : ''; ?>" 
-                               <?php echo ($pageStat != "Change") ? 'readonly' : ''; ?> 
+                               value="<?= isset(${"s" . $crit['criteria_ctr']}) ? ${"s" . $crit['criteria_ctr']} : ''; ?>" 
+                               <?= ($pageStat != "Change") ? 'readonly' : ''; ?> 
                                required>
                     </center>
                 </td>
@@ -1279,27 +1279,21 @@ if( $jstat_rowx == 1 )
 
     <strong>COMMENTS:</strong><br />
     <textarea name="jcomment" class="form-control" style="width: 99%;" placeholder="Enter comments here..."
-        <?php echo ($pageStat != "Change") ? 'readonly' : ''; ?>><?php echo $comments; ?></textarea>
+        <?= ($pageStat != "Change") ? 'readonly' : ''; ?>><?= htmlspecialchars($comments); ?></textarea>
 
     <div class="modal-footer">
-        <?php if ($totzxzxzxzxz != 100) { ?>
-            <div class="">
-                
-            </div>
-        <?php } else {  
-            if ($pageStat == "Change") { ?>
-                <a title="Click to cancel, changes made will not be saved." 
-                   href="judge_panel.php?judge_ctr=<?php echo $judge_ctr; ?>&subevent_id=<?php echo $subevent_id; ?>&contestant_id=<?php echo $getContestant_id; ?>&pStat=xChange" 
-                   class="btn btn-default"><i class="icon-remove"></i> <strong>CANCEL</strong></a>
-                <button title="Click to update scores." type="submit" class="btn btn-success"><i class="icon-ok"></i> <strong>UPDATE</strong></button>
-            <?php } else { ?>
-                <a href="judge_panel.php?judge_ctr=<?php echo $judge_ctr; ?>&subevent_id=<?php echo $subevent_id; ?>&contestant_id=<?php echo $getContestant_id; ?>&pStat=Change" 
-                   class="btn btn-default"><i class="icon-pencil"></i> <strong>CHANGE</strong></a>
-            <?php } 
-        } ?>
+        <?php if ($pageStat == "Change") { ?>
+            <a title="Click to cancel, changes made will not be saved." 
+               href="judge_panel.php?judge_ctr=<?= $judge_ctr; ?>&subevent_id=<?= $subevent_id; ?>&contestant_id=<?= $getContestant_id; ?>&pStat=xChange" 
+               class="btn btn-default"><i class="icon-remove"></i> <strong>CANCEL</strong></a>
+            <button title="Click to update scores." type="submit" class="btn btn-success"><i class="icon-ok"></i> <strong>UPDATE</strong></button>
+        <?php } else { ?>
+            <a href="judge_panel.php?judge_ctr=<?= $judge_ctr; ?>&subevent_id=<?= $subevent_id; ?>&contestant_id=<?= $getContestant_id; ?>&pStat=Change" 
+               class="btn btn-default"><i class="icon-pencil"></i> <strong>CHANGE</strong></a>
+        <?php } ?>
     </div>
-
 </form>
+
 
  
 <!-- End Edit Criteria -->
