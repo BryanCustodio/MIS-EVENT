@@ -156,7 +156,7 @@
 <ul class="nav nav-tabs alert-success">
  
 <!-- Contestant List -->
-<h1>Contestants</h1>
+<h1>TEAMS</h1>
 <?php
 if ($pageStat == "Change") { 
     $cont_query = $conn->query("SELECT * FROM contestants WHERE subevent_id='$subevent_id' AND contestant_id='$getContestant_id'") or die(mysql_error());

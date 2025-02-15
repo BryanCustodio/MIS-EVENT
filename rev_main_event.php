@@ -38,7 +38,7 @@
               
             
                <li class="active">
-                  <a href="rev_main_event.php"><strong>DATA REVIEWS</strong></a>
+                  <!-- <a href="rev_main_event.php"><strong>DATA REVIEWS</strong></a> -->
               </li>
  
               
