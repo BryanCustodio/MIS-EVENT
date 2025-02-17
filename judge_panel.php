@@ -296,7 +296,7 @@ if($getContestant_id=="allTally")
                         
                         ?>
                         
-                        <td><center><font size="2"><?php echo $crit_row['criteria']." - ".$crit_row['percentage']."%";?></font></center></td>
+                        <td><center><font size="2"><?php echo $crit_row['criteria']." - ".$crit_row['percentage']." Points";?></font></center></td>
                          
                         <?php } ?>
                          </tr>

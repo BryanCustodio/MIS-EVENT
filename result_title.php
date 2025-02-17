@@ -251,7 +251,7 @@ while ($tot_score_row = $tot_score_query->fetch())
 $jname_row = $jname_query->fetch();
  echo $jname_row['fullname'];
     ?></td>
-   <td style="width: 25% !important;"><?php echo $tot_score_row['total_score']-$tot_score_row['deduction']; ?><?php echo " (-".$tot_score_row['deduction'].")"; ?></td>
+   <td style="width: 25% !important;"><?php echo $tot_score_row['total_score']?></td>
     <td style="width: 25% !important;"><?php echo $tot_score_row['rank']; ?></td>
    </tr>
   
